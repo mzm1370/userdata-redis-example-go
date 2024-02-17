@@ -43,4 +43,40 @@ func (rc *RedisCache) GetUserByID(userID string) (*User, error) {
 		return nil, err
 	}
 
+	return &user, nil
+
+}
+
+func (rc *RedisCache) SetUser(userID string, user *User) error {
+
+	conn := rc.pool.Get()
+	defer conn.Close()
+
+	userData, err := json.Marshal(user)
+	if err != nil {
+		return err
+	}
+
+	_, err = conn.Do("SET", "user:"+userID, userData)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
+func (rc *RedisCache) DeleteUser(userID string) error {
+	conn := rc.pool.Get()
+	defer conn.Close()
+
+	_, err := conn.Do("DEL", "user:"+userID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }

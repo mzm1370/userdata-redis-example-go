@@ -12,6 +12,11 @@ import (
 func main() {
 
 	cfg := config.NewConfig()
+	redisConfig := config.LoadRedisConfig()
+
+	redisDB := db.NewRedisDB(redisConfig)
+
+	defer redisDB.Close()
 
 	_, err := db.Initialize(cfg)
 

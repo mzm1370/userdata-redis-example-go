@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"userdata-redis-example-go/db"
@@ -39,4 +40,23 @@ func RegisterHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "User registered successfully"})
+}
+
+func GetUser(c *gin.Context) {
+
+	userID := c.Param("id")
+
+	user := map[string]interface{}{
+		"id":       userID,
+		"username": "meysam",
+		"email":    "meysamzohoori.mehriz@gmail.com",
+	}
+
+	userData, err := json.Marshal(user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error"})
+		return
+	}
+
+	// conn := db.
 }

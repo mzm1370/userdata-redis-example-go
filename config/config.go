@@ -9,6 +9,12 @@ type Config struct {
 	JWTSecret  string
 }
 
+type RediConfig struct {
+	Address  string
+	Password string
+	DB       int
+}
+
 func NewConfig() *Config {
 	return &Config{
 		DBHost:     "localhost",
@@ -17,5 +23,14 @@ func NewConfig() *Config {
 		DBPassword: "password",
 		DBName:     "moochin",
 		JWTSecret:  "MySecretKeyForJWTToken123",
+	}
+}
+
+func LoadRedisConfig() *RediConfig {
+
+	return &RediConfig{
+		Address:  "localhost:679",
+		Password: "",
+		DB:       0,
 	}
 }
